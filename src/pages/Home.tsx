@@ -2,6 +2,7 @@ import Button from 'components/Button'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { findBooks } from 'services/openLibrary'
 import { reset } from 'store/auth'
 
@@ -14,16 +15,24 @@ function Home({ reset }: { reset: Function }) {
     const [numFound, setNumFound] = useState(0)
 
     const onSearch = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        setIsFetching(true)
-        setBooks([])
+        try {
+            event.preventDefault()
+            setIsFetching(true)
+            setBooks([])
 
-        const result = await findBooks(query)
-        const { docs = [], numFound = 0 } = result
+            const result = await findBooks(query)
+            const { docs = [], numFound = 0 } = result
 
-        setIsFetching(false)
-        setBooks(docs)
-        setNumFound(numFound)
+            setBooks(docs)
+            setNumFound(numFound)
+        } catch (error) {
+            console.error(error)
+            toast.error('Error fetching resource!', {
+                position: toast.POSITION.BOTTOM_LEFT,
+            })
+        } finally {
+            setIsFetching(false)
+        }
     }
 
     const onQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +62,9 @@ function Home({ reset }: { reset: Function }) {
                             </div>
 
                             <div>
-                                <button type="submit">Search</button>
+                                <button type="submit" disabled={isFetching}>
+                                    Search
+                                </button>
                             </div>
                         </div>
                     </form>

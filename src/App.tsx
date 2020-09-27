@@ -1,18 +1,22 @@
+import Routes from 'pages/Routes'
 import React from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { useTitle } from 'react-use'
 import './App.css'
-import Routes from 'pages/Routes'
 
 export default function App() {
     useTitle('Openlibrary App: TODO')
 
     return (
-        <div>
+        <>
             <header>Header</header>
 
             <main>
                 <Routes />
             </main>
-        </div>
+
+            <ToastContainer />
+        </>
     )
 }
