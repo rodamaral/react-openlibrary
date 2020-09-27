@@ -1,9 +1,9 @@
+import Button from 'components/Button'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import Button from '../components/Button'
-import { findBooks } from '../services/openLibrary'
-import { reset } from '../store/auth'
+import { findBooks } from 'services/openLibrary'
+import { reset } from 'store/auth'
 
 function Home({ reset }: { reset: Function }) {
     const history = useHistory()
