@@ -21,6 +21,7 @@
         "react-router-dom": "^5.2.0",
         "react-scripts": "3.4.3",
         "react-table": "^7.5.0",
+        "react-toastify": "^6.0.8",
         "react-use": "^15.3.3",
         "redux-logger": "^3.0.6",
         "styled-components": "^5.2.0",
