@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import IDoc from 'types/IDoc'
@@ -34,6 +35,10 @@ const WorkLine = ({ work }: { work: IDoc }) => {
             />
 
             <footer>
+                <Button type="link" href={`https://openlibrary.org${key}`}>
+                    Ver obra
+                </Button>
+
                 <a href={`https://openlibrary.org${key}`}>Mostrar em Open Library</a>
 
                 {id_goodreads.length > 0 && (
@@ -42,7 +47,9 @@ const WorkLine = ({ work }: { work: IDoc }) => {
                     </a>
                 )}
 
-                <button onClick={onClick}>Ver obra</button>
+                <Button type="primary" onClick={onClick}>
+                    Ver obra
+                </Button>
             </footer>
         </div>
     )

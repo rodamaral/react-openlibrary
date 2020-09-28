@@ -15,10 +15,10 @@ interface Props {
 }
 
 const WorkDetails = ({ authors }: Props) => {
-    if (authors === undefined) return <span>Vazio :(</span>
+    if (authors === undefined) return <i>Autor desconhecido</i>
 
     return (
-        <div style={{ border: '2px solid gray', marginBottom: '50px' }}>
+        <div>
             {authors && (
                 <span>
                     por{' '}
