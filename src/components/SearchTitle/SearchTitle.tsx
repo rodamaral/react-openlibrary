@@ -1,3 +1,4 @@
+import { Input, Typography } from 'antd'
 import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react'
 
 interface Props {
@@ -14,26 +15,19 @@ export default function SearchTitle({ query, setQuery, isFetching, onSearch }: P
 
     return (
         <section>
-            <div>
-                <form onSubmit={onSearch}>
-                    <div>
-                        <div>
-                            <input
-                                type="text"
-                                placeholder="Título"
-                                defaultValue={query}
-                                onChange={onQueryChange}
-                            />
-                        </div>
+            <Typography>
+                <Typography.Title>Open Library - Busca de livros</Typography.Title>
+            </Typography>
 
-                        <div>
-                            <button type="submit" disabled={isFetching}>
-                                Procurar
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <form onSubmit={onSearch}>
+                <Input.Search
+                    placeholder="Título"
+                    value={query}
+                    onChange={onQueryChange}
+                    loading={isFetching}
+                    enterButton
+                />
+            </form>
         </section>
     )
 }

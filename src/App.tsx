@@ -11,9 +11,7 @@ export default function App() {
 
     return (
         <>
-            <main>
-                <Routes />
-            </main>
+            <Routes />
 
             <ToastContainer />
         </>

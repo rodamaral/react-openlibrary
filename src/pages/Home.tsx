@@ -1,9 +1,9 @@
 import { Layout } from 'antd'
 import SearchTitle from 'components/SearchTitle'
 import WorkList from 'components/WorkList'
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useAsyncFn } from 'react-use'
+import { useAsyncFn, useUpdateEffect } from 'react-use'
 import { search } from 'services/openLibrary'
 import IDoc from 'types/IDoc'
 
@@ -21,7 +21,7 @@ export default function Home() {
     const works: IDoc[] = state.value?.docs || []
     const numFound: number = state.value?.numFound || 0
 
-    const trySearch = () => {
+    const trySearch = useCallback(() => {
         if (query !== '') {
             get()
         } else {
@@ -29,7 +29,7 @@ export default function Home() {
                 position: toast.POSITION.BOTTOM_LEFT,
             })
         }
-    }
+    }, [get, query])
 
     const onSearch = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -45,25 +45,31 @@ export default function Home() {
         }
     }, [state.error])
 
+    useUpdateEffect(() => {
+        trySearch()
+    }, [page])
+
     return (
         <Layout>
             <Header>Header</Header>
 
-            <Content>
-                <SearchTitle
-                    query={query}
-                    setQuery={setQuery}
-                    isFetching={state.loading}
-                    onSearch={onSearch}
-                />
+            <Content style={{ marginLeft: 20, marginRight: 20, minHeight: 'calc(100vh - 64px)' }}>
+                <div style={{ margin: '20px auto', maxWidth: 1200 }}>
+                    <SearchTitle
+                        query={query}
+                        setQuery={setQuery}
+                        isFetching={state.loading}
+                        onSearch={onSearch}
+                    />
 
-                <WorkList
-                    works={works}
-                    isFetching={state.loading}
-                    numFound={numFound}
-                    setPage={setPage}
-                    get={get}
-                />
+                    <WorkList
+                        works={works}
+                        page={page}
+                        isFetching={state.loading}
+                        numFound={numFound}
+                        setPage={setPage}
+                    />
+                </div>
             </Content>
         </Layout>
     )
