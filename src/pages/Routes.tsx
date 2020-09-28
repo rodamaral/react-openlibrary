@@ -1,3 +1,4 @@
+import { Spin } from 'antd'
 import React, { lazy, Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
@@ -6,7 +7,7 @@ const Work = lazy(() => import('./Work'))
 const Table = lazy(() => import('./Table'))
 
 export default () => (
-    <Suspense fallback={<div>Loading</div>}>
+    <Suspense fallback={<Spin spinning size="large" />}>
         <Switch>
             <Route exact path="/">
                 <Home />

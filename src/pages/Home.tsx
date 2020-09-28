@@ -1,46 +1,49 @@
 import { Layout } from 'antd'
 import SearchTitle from 'components/SearchTitle'
 import WorkList from 'components/WorkList'
-import React, { FormEvent, useCallback, useState } from 'react'
-import { connect } from 'react-redux'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { useAsyncFn } from 'react-use'
 import { search } from 'services/openLibrary'
-import { reset } from 'store/auth'
 import IDoc from 'types/IDoc'
 
 const { Header, Content } = Layout
 
-function Home({ reset }: { reset: Function }) {
+export default function Home() {
     const [query, setQuery] = useState('')
-    const [isFetching, setIsFetching] = useState(false)
-    const [works, setWorks] = useState<IDoc[]>([])
-    const [numFound, setNumFound] = useState(0)
     const [page, setPage] = useState(1)
 
-    const onFetch = useCallback(async () => {
-        try {
-            setIsFetching(true)
-            setWorks([])
-
-            const result = await search({ title: query, page })
-            const { docs = [], numFound = 0 } = result
-
-            setWorks(docs)
-            setNumFound(numFound)
-        } catch (error) {
-            console.error(error)
-            toast.error('Error fetching resource!', {
-                position: toast.POSITION.BOTTOM_LEFT,
-            })
-        } finally {
-            setIsFetching(false)
-        }
+    const [state, get] = useAsyncFn(async () => {
+        const response = await search({ title: query, page })
+        return response
     }, [query, page])
 
-    const onSearch = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        onFetch()
+    const works: IDoc[] = state.value?.docs || []
+    const numFound: number = state.value?.numFound || 0
+
+    const trySearch = () => {
+        if (query !== '') {
+            get()
+        } else {
+            toast.warning('Digite o título para pesquisar', {
+                position: toast.POSITION.BOTTOM_LEFT,
+            })
+        }
     }
+
+    const onSearch = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        trySearch()
+    }
+
+    useEffect(() => {
+        if (state.error) {
+            console.error(state.error)
+            toast.error('Erro de requisição', {
+                position: toast.POSITION.BOTTOM_LEFT,
+            })
+        }
+    }, [state.error])
 
     return (
         <Layout>
@@ -50,28 +53,18 @@ function Home({ reset }: { reset: Function }) {
                 <SearchTitle
                     query={query}
                     setQuery={setQuery}
-                    isFetching={isFetching}
+                    isFetching={state.loading}
                     onSearch={onSearch}
                 />
 
                 <WorkList
                     works={works}
-                    isFetching={isFetching}
+                    isFetching={state.loading}
                     numFound={numFound}
                     setPage={setPage}
-                    onFetch={onFetch}
+                    get={get}
                 />
             </Content>
         </Layout>
     )
 }
-
-const mapDispatchToProps = {
-    reset,
-}
-
-function mapStateToProps(state: any) {
-    return { token: state.auth.token }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
