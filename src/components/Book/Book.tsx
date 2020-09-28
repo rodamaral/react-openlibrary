@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import IDoc from 'types/IDoc'
 
 const BookComponent = ({ book }: { book: IDoc }) => {
@@ -11,6 +12,12 @@ const BookComponent = ({ book }: { book: IDoc }) => {
         edition_count,
         cover_edition_key,
     } = book
+    const history = useHistory()
+
+    const onClick = () => {
+        console.log('book :>> ', book)
+        history.push(book.key)
+    }
 
     return (
         <div style={{ border: '2px solid gray', marginBottom: '50px' }}>
@@ -34,6 +41,8 @@ const BookComponent = ({ book }: { book: IDoc }) => {
                         Mostrar em Goodreads
                     </a>
                 )}
+
+                <button onClick={onClick}>Detalhes TODO</button>
             </footer>
         </div>
     )

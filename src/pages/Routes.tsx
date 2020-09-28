@@ -12,7 +12,7 @@ export default () => (
                 <Home />
             </Route>
 
-            <Route path="/page1">
+            <Route path="/works/:id">
                 <Page1 />
             </Route>
 
