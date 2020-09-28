@@ -23,10 +23,10 @@ const WorkDetails = ({ authors }: Props) => {
                 <span>
                     por{' '}
                     {authors.map((author, index) => (
-                        <>
+                        <span key={author.author.toString()}>
                             <AuthorName id={author.author.key} />
                             {index !== authors.length - 1 && ', '}
-                        </>
+                        </span>
                     ))}
                 </span>
             )}
