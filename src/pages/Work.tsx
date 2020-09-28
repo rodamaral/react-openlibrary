@@ -1,3 +1,4 @@
+import { Skeleton } from 'antd'
 import WorkDetails from 'components/WorkDetails'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -29,7 +30,7 @@ export default function Work() {
     return (
         <div>
             Work {id}
-            {isFetching && <span>Fetching...</span>}
+            {isFetching && <Skeleton />}
             {response != null && <section>{JSON.stringify(response)}</section>}
             {response !== undefined && <WorkDetails work={response} />}
         </div>

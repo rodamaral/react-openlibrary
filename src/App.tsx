@@ -1,3 +1,4 @@
+import 'antd/dist/antd.css'
 import Routes from 'pages/Routes'
 import React from 'react'
 import { ToastContainer } from 'react-toastify'
