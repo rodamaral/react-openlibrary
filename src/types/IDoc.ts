@@ -1,0 +1,29 @@
+export default interface IDoc {
+    title_suggest: string
+    edition_key: string[]
+    cover_i: number
+    isbn: string[]
+    has_fulltext: true
+    text: string[]
+    author_name: string[]
+    ia: string[]
+    seed: string[]
+    contributor: string[]
+    author_key: string[]
+    subject: string[]
+    title: string
+    ia_collection_s: string
+    first_publish_year: number
+    type: string
+    edition_count: number
+    key: string
+    id_goodreads: string[]
+    public_scan_b: false
+    publisher: string[]
+    language: string[]
+    last_modified_i: number
+    cover_edition_key: string
+    publish_year: number[]
+    printdisabled_s: string
+    publish_date: string[]
+}

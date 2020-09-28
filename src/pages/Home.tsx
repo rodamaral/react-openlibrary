@@ -1,17 +1,15 @@
-import Button from 'components/Button'
+import Book from 'components/Book'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { connect } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { findBooks } from 'services/openLibrary'
+import { search } from 'services/openLibrary'
 import { reset } from 'store/auth'
+import IDoc from 'types/IDoc'
 
 function Home({ reset }: { reset: Function }) {
-    const history = useHistory()
-
     const [query, setQuery] = useState('')
     const [isFetching, setIsFetching] = useState(false)
-    const [books, setBooks] = useState<any[]>([])
+    const [books, setBooks] = useState<IDoc[]>([])
     const [numFound, setNumFound] = useState(0)
 
     const onSearch = async (event: FormEvent<HTMLFormElement>) => {
@@ -20,7 +18,7 @@ function Home({ reset }: { reset: Function }) {
             setIsFetching(true)
             setBooks([])
 
-            const result = await findBooks(query)
+            const result = await search({ title: query, page: 1 })
             const { docs = [], numFound = 0 } = result
 
             setBooks(docs)
@@ -39,15 +37,8 @@ function Home({ reset }: { reset: Function }) {
         setQuery(event?.target.value)
     }
 
-    const onClick = () => {
-        reset()
-        history.push('/Page1')
-    }
-
     return (
         <div>
-            Home
-            <Button onClick={onClick}>Reset</Button>
             <section>
                 <div>
                     <form onSubmit={onSearch}>
@@ -55,7 +46,7 @@ function Home({ reset }: { reset: Function }) {
                             <div>
                                 <input
                                     type="text"
-                                    placeholder="Title"
+                                    placeholder="Título"
                                     defaultValue={query}
                                     onChange={onQueryChange}
                                 />
@@ -63,7 +54,7 @@ function Home({ reset }: { reset: Function }) {
 
                             <div>
                                 <button type="submit" disabled={isFetching}>
-                                    Search
+                                    Procurar
                                 </button>
                             </div>
                         </div>
@@ -80,7 +71,7 @@ function Home({ reset }: { reset: Function }) {
                         </p>
                     )}
                     {books.map((book) => (
-                        <p key={book.id}>{book.title}</p>
+                        <Book key={book.key} book={book} />
                     ))}
                 </div>
             </section>
