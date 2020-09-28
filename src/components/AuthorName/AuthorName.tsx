@@ -1,3 +1,4 @@
+import { Skeleton } from 'antd'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useMount } from 'react-use'
@@ -24,11 +25,13 @@ const AuthorName = ({ id }: { id: string }) => {
     })
 
     return (
-        <div>
-            {isFetching && <span>Fetching...</span>}
+        <>
+            {isFetching && (
+                <Skeleton.Input style={{ width: 150, height: 16 }} active size="small" />
+            )}
             {/* {author != null && <section>{JSON.stringify(author)}</section>} */}
-            {author != null && <section>{author.name}</section>}
-        </div>
+            {author != null && <span>{author.name}</span>}
+        </>
     )
 }
 
