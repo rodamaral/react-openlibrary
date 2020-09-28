@@ -24,3 +24,21 @@ export const get = async (uri: string, params: SearchParams) => {
 }
 
 export const search = (params: SearchParams) => get('/search.json', params)
+
+export const getWork = async (key: string) => {
+    const url = `works/${key}.json`
+    const res = await singleton.get(url)
+    return res.data
+}
+
+export const getAuthors = async (key: string) => {
+    const url = `authors/${key}.json`
+    const res = await singleton.get(url)
+    return res.data
+}
+
+export const getJsonEntityByKey = async (key: string) => {
+    const url = `${key}.json`
+    const res = await singleton.get(url)
+    return res.data
+}

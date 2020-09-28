@@ -24,7 +24,7 @@ export default interface Book {
         type: string
         value: string
     }
-    latest_revision: 2
+    latest_revision: number
     publish_country: string
     key: string
     authors: [

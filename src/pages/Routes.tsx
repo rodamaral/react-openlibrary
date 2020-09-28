@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 const Home = lazy(() => import('./Home'))
-const Page1 = lazy(() => import('./Page1'))
+const Work = lazy(() => import('./Work'))
 const Table = lazy(() => import('./Table'))
 
 export default () => (
@@ -13,7 +13,7 @@ export default () => (
             </Route>
 
             <Route path="/works/:id">
-                <Page1 />
+                <Work />
             </Route>
 
             <Route path="/table">
