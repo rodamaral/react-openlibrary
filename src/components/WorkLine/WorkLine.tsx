@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import IDoc from 'types/IDoc'
 
-const BookComponent = ({ book }: { book: IDoc }) => {
+const WorkLine = ({ work }: { work: IDoc }) => {
     const {
         title,
         author_name,
@@ -11,12 +11,12 @@ const BookComponent = ({ book }: { book: IDoc }) => {
         first_publish_year,
         edition_count,
         cover_edition_key,
-    } = book
+    } = work
     const history = useHistory()
 
     const onClick = () => {
-        console.log('book :>> ', book)
-        history.push(book.key)
+        console.log('work :>> ', work)
+        history.push(work.key)
     }
 
     return (
@@ -42,10 +42,10 @@ const BookComponent = ({ book }: { book: IDoc }) => {
                     </a>
                 )}
 
-                <button onClick={onClick}>Detalhes TODO</button>
+                <button onClick={onClick}>Ver obra</button>
             </footer>
         </div>
     )
 }
 
-export default BookComponent
+export default WorkLine

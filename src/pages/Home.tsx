@@ -1,4 +1,4 @@
-import Book from 'components/Book'
+import WorkLine from 'components/WorkLine'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { connect } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -9,19 +9,19 @@ import IDoc from 'types/IDoc'
 function Home({ reset }: { reset: Function }) {
     const [query, setQuery] = useState('')
     const [isFetching, setIsFetching] = useState(false)
-    const [books, setBooks] = useState<IDoc[]>([])
+    const [works, setWorks] = useState<IDoc[]>([])
     const [numFound, setNumFound] = useState(0)
 
     const onSearch = async (event: FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault()
             setIsFetching(true)
-            setBooks([])
+            setWorks([])
 
             const result = await search({ title: query, page: 1 })
             const { docs = [], numFound = 0 } = result
 
-            setBooks(docs)
+            setWorks(docs)
             setNumFound(numFound)
         } catch (error) {
             console.error(error)
@@ -64,14 +64,14 @@ function Home({ reset }: { reset: Function }) {
             <section>
                 <div>
                     {isFetching && <span>Loading...</span>}
-                    {books.length > 0 && (
+                    {works.length > 0 && (
                         <p>
-                            Showing <strong>{books.length}</strong> of <strong>{numFound}</strong>{' '}
+                            Showing <strong>{works.length}</strong> of <strong>{numFound}</strong>{' '}
                             results.
                         </p>
                     )}
-                    {books.map((book) => (
-                        <Book key={book.key} book={book} />
+                    {works.map((work) => (
+                        <WorkLine key={work.key} work={work} />
                     ))}
                 </div>
             </section>
